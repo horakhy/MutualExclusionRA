@@ -1,4 +1,4 @@
-package br.com.mutualExclusionRA;
+package br.com.mutualExclusionRA.enums;
 
 public enum StateType {
 	RELEASED,

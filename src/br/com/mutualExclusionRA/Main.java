@@ -2,6 +2,8 @@ package br.com.mutualExclusionRA;
 
 import java.util.ArrayList;
 
+import br.com.mutualExclusionRA.enums.StateType;
+
 public class Main {
 
 	public static void main(String[] args) {

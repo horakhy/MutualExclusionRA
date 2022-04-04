@@ -1,5 +1,7 @@
 package br.com.mutualExclusionRA;
 
+import br.com.mutualExclusionRA.enums.StateType;
+
 public class Process {
 	public String name;
 	private int senderIdentifier;

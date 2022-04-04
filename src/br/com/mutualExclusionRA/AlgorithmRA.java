@@ -1,13 +1,14 @@
 package br.com.mutualExclusionRA;
 
 import java.util.*;
-import java.lang.*;
+
+import br.com.mutualExclusionRA.enums.StateType;
 
 public class AlgorithmRA implements Runnable {
 	private ArrayList<Process> processList;
 	private ArrayList<Process> processQueueSC;
 
-	public AlgorithmRA(ArrayList<Process> processQueue) {
+	public AlgorithmRA(ArrayList<br.com.mutualExclusionRA.Process> processQueue) {
 		this.processList = processQueue;
 	}
 
