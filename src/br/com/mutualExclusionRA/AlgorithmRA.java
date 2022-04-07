@@ -2,7 +2,7 @@ package br.com.mutualExclusionRA;
 
 import java.util.*;
 
-import br.com.mutualExclusionRA.enums.StateType;
+import br.com.mutualExclusionRA.enums.StateTypes;
 
 public class AlgorithmRA implements Runnable {
 	private ArrayList<Process> processList;
@@ -13,25 +13,25 @@ public class AlgorithmRA implements Runnable {
 	}
 
 	public void requestCriticalSection(Process requestingProcess) {
-//		if(processQueue. (process => process.getStateType === StateType.HELD));
+//		if(processQueue. (process => process.getStateTypes === StateTypes.HELD));
 		// Verifica se já existe algum processo na seção crítica
 		for (Process p : processList) {
-			if (p.getStateSC() == StateType.HELD) {
+			if (p.getStateSC() == StateTypes.HELD) {
 				System.out.println("Outro processo está na seção crítica");
-				System.out.println("O " + requestingProcess.name + " será o próximo");
-				if (requestingProcess.getStateSC() == StateType.WANTED)
+				System.out.println("O " + requestingProcess.id + " será o próximo");
+				if (requestingProcess.getStateSC() == StateTypes.WANTED)
 					this.processQueueSC.add(requestingProcess);
 				return;
 			}
 		}
 
 		int time = requestingProcess.getSenderTime();
-		requestingProcess.setStateSC(StateType.HELD);
+		requestingProcess.setStateSC(StateTypes.HELD);
 
 		try {
 			Thread.sleep(time);
-			requestingProcess.setStateSC(StateType.RELEASED);
-			System.out.println(requestingProcess.name + " está na seção crítica");
+			requestingProcess.setStateSC(StateTypes.RELEASED);
+			System.out.println(requestingProcess.id + " está na seção crítica");
 			System.out.println("delay de " + time);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -47,15 +47,15 @@ public class AlgorithmRA implements Runnable {
 					System.out.println("Entrei aqui menóó");
 					requestCriticalSection(p);
 					// Randomizar o estado para acesso a seção crítica
-					if (p.getStateSC() != StateType.WANTED)
-						p.setStateSC(new Random().nextBoolean() ? StateType.WANTED : StateType.RELEASED);
+					if (p.getStateSC() != StateTypes.WANTED)
+						p.setStateSC(new Random().nextBoolean() ? StateTypes.WANTED : StateTypes.RELEASED);
 				}
 
 			} else {
 				// Caso a fila não exista ainda
 				for (Process p : processList) {
 					requestCriticalSection(p);
-					p.setStateSC(new Random().nextBoolean() ? StateType.WANTED : StateType.RELEASED);
+					p.setStateSC(new Random().nextBoolean() ? StateTypes.WANTED : StateTypes.RELEASED);
 				}
 			}
 		}

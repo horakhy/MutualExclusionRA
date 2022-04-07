@@ -1,0 +1,25 @@
+Comunicação multicast para os pedidos de entrada na SC;
+
+! Comunicação unicast para envio das respostas aos pedidos recém-
+recebidos (pedido de entrada na SC) e aos pedidos enfileirados
+
+(momento da liberação do recurso);
+! Três processos que serão executados na mesma máquina;
+! Um recurso será compartilhado entre os três processos. Cada
+processo deve possuir uma fila para controlar o acesso ao recurso;
+! Não ocorrerão falhas nos processos e no canal de comunicação;
+! Cada processo par atuará como publisher e subscriber. O pedido
+para acessar um recurso indica um registro de interesse (subscriber)
+em receber uma notificação de evento quando o recurso desejado for
+liberado (caso o mesmo não esteja disponível no momento da
+solicitação). Quando um processo liberar um recurso, ele deve enviar
+uma notificação dessa liberação ao(s) processo(s) que tenham
+registrado interesse no recurso (pedido de entrada na seção crítica) e
+retirar o pedido desse(s) processo(s) da fila do recurso.
+
+////////////////////////////////////////////////////////////////////////////
+
+Lembrando que vocês não vão implementar o uso real de um recurso. Vocês precisarão se preocupar 
+apenas com o algoritmo de exclusão mútua do Ricard e Agrawala, com a comunicação entre os processos 
+para decidir quem pode utilizar o recurso em cada instante de tempo. Esse controle se dará através 
+da variável Estado_Recurso de cada processo, sendo que esta variável pode assumir Release, Held ou Wanted.

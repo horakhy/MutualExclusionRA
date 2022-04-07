@@ -1,6 +1,6 @@
 package br.com.mutualExclusionRA.enums;
 
-public enum StateType {
+public enum StateTypes {
 	RELEASED,
 	WANTED,
 	HELD
