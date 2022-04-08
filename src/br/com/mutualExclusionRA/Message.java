@@ -155,28 +155,26 @@ public class Message implements Serializable{
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append("    >> ");
-
-		sb.append(this.getName());
+		sb.append("\t> Message: ");
 
 		switch (this.getMessageType()) {
 		case ENTRY:
-			sb.append(" entrou no grupo");
+			sb.append(this.getName() + " joined the group");
 			break;
 		case ENTRY_RESPONSE:
-			sb.append(" respondeu à entrada do colega");
+			sb.append(this.getName() + " replied the entry");
 			break;
 		case EXIT:
-			sb.append(" saiu do grupo");
+			sb.append(this.getName() + " leaved the group");
 			break;
 		case REQUEST:
-			sb.append(" está requisitando o recurso ");
+			sb.append(this.getName() + " is requesting the resource");
 			break;
 		case REQUEST_RESPONSE:
-			sb.append(" informa que o recurso  está no estado " + this.getResourceState().toString());
+			sb.append(this.getName() + " informs that the resource is in the state " + this.getResourceState().toString());
 			break;
 		case RELEASE:
-			sb.append(" liberou o recurso ");
+			sb.append(this.getName() + " released the resource ");
 			break;
 		default:
 			break;

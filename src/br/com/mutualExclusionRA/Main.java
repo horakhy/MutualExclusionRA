@@ -8,69 +8,75 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 
-		Process process_U = new Process("1", 0, 0, StateTypes.RELEASED);
-		process_U.start();
-		Process process_D = new Process("2", 0, 0, StateTypes.RELEASED);
-		process_D.start();
-		Process process_T = new Process("3", 0, 0, StateTypes.RELEASED);
-		process_T.start();
+		// Process process_U = new Process("1", 0, 0, StateTypes.RELEASED);
+		// process_U.start();
+		// Process process_D = new Process("2", 0, 0, StateTypes.RELEASED);
+		// process_D.start();
+		// Process process_T = new Process("3", 0, 0, StateTypes.RELEASED);
+		// process_T.start();
 
-		System.out.println("Processos iniciados");
-		Process processo = null;
+		System.out.println("Initializing process...");
+		Process process = null;
+		Process processo2 = null;
+		// Process processo3 = null;
+
 		try {
-			processo = new Process("1", 0, 1000, StateTypes.RELEASED);
-			processo.start();
+			process = new Process("1", StateTypes.RELEASED);
+			process.start();
+			// processo2 = new Process("2", StateTypes.RELEASED);
+			// processo2.start();
+			// processo3 = new Process("3", StateTypes.RELEASED);
+			// processo3.start();
 		} catch (Exception e) {
-			System.out.println("Erro ao criar processo");
+			System.out.println("Process Create Error");
 			e.printStackTrace();
 		}
-		System.out.println(processo);
+		System.out.println(process);
 		Scanner scanner = new Scanner(System.in);
 		while (true) {
 
-			int opcao = scanner.nextInt();
+			int opt = scanner.nextInt();
 
-			if (processo.getInit() || opcao == 5 || opcao == 6) {
-				switch (opcao) {
+			if (process.getInit() || opt == 5 || opt == 6) {
+				switch (opt) {
 				case 1:
 					System.out.println();
-					System.out.println("Requisitando recurso 1...");
+					System.out.println("Requesting resource...");
 					System.out.println();
-					processo.requisitarRecurso();
+					process.requestResource();
 					break;
 				case 2:
 					System.out.println();
-					System.out.println("Requisitando recurso 2...");
+					System.out.println("Requisitando recurso...");
 					System.out.println();
-					processo.requisitarRecurso();
+					process.requestResource();
 					break;
 				case 3:
 					System.out.println();
-					System.out.println("Liberando recurso 1...");
+					System.out.println("Releasing resource 1...");
 					System.out.println();
-					processo.liberarRecurso(Boolean.TRUE);
+					process.releaseResource(Boolean.TRUE);
 					break;
 				case 4:
 					System.out.println();
-					System.out.println("Liberando recurso 2...");
+					System.out.println("Releasing resource 2...");
 					System.out.println();
-					processo.liberarRecurso(Boolean.TRUE);
+					process.releaseResource(Boolean.TRUE);
 					break;
 				case 5:
-					// processo.imprimirPeersConectados();
+					process.printConnectedPeers();
 					break;
 				case 6:
 					System.out.println();
-					System.out.println("Saindo do programa...");
+					System.out.println("Leaving program...");
 					System.out.println();
-					processo.liberarRecurso(Boolean.FALSE);
-					processo.liberarRecurso(Boolean.FALSE);
-					processo.anunciarSaida();
+					process.releaseResource(Boolean.FALSE);
+					process.leaveMessage();
 					scanner.close();
 					System.exit(0);
 					break;
 				default:
-					System.out.println("Opção inválida!");
+					System.out.println("Invalid choice!");
 					break;
 				}
 			} else {
