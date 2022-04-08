@@ -218,7 +218,6 @@ public class Process extends Thread {
 
 			message = Message.fromBytes(buffer);
 
-			// Limpa mensagens estão no buffer e não interessam
 			if (!message.getMessageType().equals(MessageTypes.REQUEST_RESPONSE)
 					|| timestampInicio > message.getTimestamp()) {
 				return this.receiveResponseRequest(timestampInicio);

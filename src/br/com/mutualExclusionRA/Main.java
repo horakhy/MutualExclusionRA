@@ -33,6 +33,18 @@ public class Main {
 		}
 		System.out.println(process);
 		Scanner scanner = new Scanner(System.in);
+		System.out.println("Selecione uma opção abaixo:");
+		System.out.println();
+		System.out.println("+---+--------------------+");
+		System.out.println("+ 1 +  Acessar recurso   +");
+		System.out.println("+---+--------------------+");
+		System.out.println("+ 2 +  Liberar recurso   +");
+		System.out.println("+---+--------------------+");
+		System.out.println("+ 3 +  Imprimir os peers +");
+		System.out.println("+---+--------------------+");
+		System.out.println("+ 4 +         Sair       +");
+		System.out.println("+---+--------------------+");
+		System.out.println();
 		while (true) {
 
 			int opt = scanner.nextInt();
@@ -47,26 +59,14 @@ public class Main {
 					break;
 				case 2:
 					System.out.println();
-					System.out.println("Requisitando recurso...");
+					System.out.println("Releasing resource...");
 					System.out.println();
-					process.requestResource();
+					process.releaseResource(Boolean.TRUE);
 					break;
 				case 3:
-					System.out.println();
-					System.out.println("Releasing resource 1...");
-					System.out.println();
-					process.releaseResource(Boolean.TRUE);
-					break;
-				case 4:
-					System.out.println();
-					System.out.println("Releasing resource 2...");
-					System.out.println();
-					process.releaseResource(Boolean.TRUE);
-					break;
-				case 5:
 					process.printConnectedPeers();
 					break;
-				case 6:
+				case 4:
 					System.out.println();
 					System.out.println("Leaving program...");
 					System.out.println();
@@ -84,77 +84,5 @@ public class Main {
 			}
 
 		}
-		// System.out.println("Selecione uma opção abaixo:");
-		// System.out.println();
-		// System.out.println("+---+------------------------+");
-		// System.out.println("+ 1 + P1 - Acessar recurso   +");
-		// System.out.println("+---+------------------------+");
-		// System.out.println("+ 2 + P2 - Acessar recurso   +");
-		// System.out.println("+---+------------------------+");
-		// System.out.println("+ 3 + P3 - Acessar recurso   +");
-		// System.out.println("+---+------------------------+");
-		// System.out.println("+ 1 + P1 - Liberar recurso   +");
-		// System.out.println("+---+------------------------+");
-		// System.out.println("+ 2 + P2 - Liberar recurso   +");
-		// System.out.println("+---+------------------------+");
-		// System.out.println("+ 3 + P3 - Liberar recurso   +");
-		// System.out.println("+---+------------------------+");
-		// System.out.println("+ 7 +         Sair           +");
-		// System.out.println("+---+------------------------+");
-		// System.out.println();
-
-		// Scanner scanner = new Scanner(System.in);
-		// while (true) {
-
-		// 	int opt = scanner.nextInt();
-		// 	ArrayList<Process> processQueue = new ArrayList<Process>();
-			
-		// 	switch(opt) {
-		// 		case 1:
-		// 			System.out.println("P1 - Acessar recurso");
-		// 			Process p1 = new Process("Processo 1" , 1, 1000, StateTypes.RELEASED);
-		// 			processQueue.add(p1);
-		// 			System.out.println();
-		// 			break;
-		// 		case 2:
-		// 			System.out.println("P2 - Acessar recurso");
-		// 			Process p2 = new Process("Processo 2" , 2, 2000, StateTypes.RELEASED);
-		// 			processQueue.add(p2);
-		// 			System.out.println();
-		// 			break;
-		// 		case 3:
-		// 			System.out.println("P3 - Acessar recurso");
-		// 			Process p3 = new Process("Processo 3" , 3, 3000, StateTypes.RELEASED);
-		// 			processQueue.add(p3);
-		// 			System.out.println();
-		// 			break;
-		// 		case 4:
-		// 			System.out.println("Liberar o recurso 1");
-		// 			System.out.println();
-		// 			break;
-		// 		case 5:
-		// 			System.out.println("Liberar o recurso 2");
-		// 			System.out.println();
-		// 			break;
-		// 		case 6:
-		// 			System.out.println("Listar Peers");
-		// 			System.out.println();
-		// 			break;
-		// 		case 7:
-		// 			System.out.println("Sair");
-		// 			System.out.println();
-		// 			break;
-		// 		default:
-		// 			System.out.println("Opção inválida");
-		// 			System.out.println();
-		// 			break;
-		// 	}
-		// 	if(opt == 1 || opt == 2 || opt == 3){
-		// 		AlgorithmRA RA = new AlgorithmRA(processQueue);
-		// 		Thread t1 = new Thread(RA);
-		// 		t1.start();
-		// 	}
-		// scanner.close();
-		// }
 	}
 }
