@@ -16,7 +16,8 @@ public class Process extends Thread {
 	private Map<String, byte[]> waitingList;
 	private Set<String> resourceWaitingList;
 	private Boolean init;
-	private InetAddress group;
+	private InetSocketAddress group;
+	InetAddress mcastaddr;
 
 	public Process(String id, StateTypes stateSC) {
 		this.id = id;
@@ -58,16 +59,18 @@ public class Process extends Thread {
 
 	private void connect() {
 		try {
-			this.group = InetAddress.getByName("232.232.232");
+			this.mcastaddr = InetAddress.getByName("228.5.6.7");
+			this.group = new InetSocketAddress(mcastaddr, 6789);
+			NetworkInterface netIf = NetworkInterface.getByName("bge0");
 			this.socket = new MulticastSocket(6789);
-			this.socket.joinGroup(group);
+			this.socket.joinGroup(group, netIf);
 
 			this.socketResponse = new MulticastSocket(6789);
-			this.socketResponse.joinGroup(group);
+			this.socketResponse.joinGroup(group, netIf);
 			this.socketResponse.setSoTimeout(3000);
 
 			System.out.println();
-			System.out.println("---" + "Connected to " + "232.232.232" + ":"
+			System.out.println("---" + "Connected to " + "168.168.168.168" + ":"
 					+ "6789");
 			System.out.println();
 		} catch (Exception e) {
@@ -77,7 +80,10 @@ public class Process extends Thread {
 	
 	private void disconnect() {
 		try {
-			this.socket.leaveGroup(group);
+			InetAddress mcastaddr = InetAddress.getByName("228.5.6.7");
+			InetSocketAddress group = new InetSocketAddress(mcastaddr, 6789);
+			NetworkInterface netIf = NetworkInterface.getByName("bge0");
+			this.socket.leaveGroup(group, netIf);
 			this.socket.disconnect();
 		} catch (Exception e) {
 			System.out.println("Group Disconnection Failed");
@@ -96,7 +102,7 @@ public class Process extends Thread {
 		// Atualizando a situação do recurso para WANTED
 		this.resourceState = StateTypes.WANTED;
 
-		// Envia uma mensagem de requisição do recurso
+		// Envia uma message de requisição do recurso
 		Message request = new Message(MessageTypes.REQUEST, this.id);
 		this.sendMessage(request);
 
@@ -173,14 +179,14 @@ public class Process extends Thread {
 	private void sendMessage(Message message) throws Exception {
 		byte[] messageBytes = Message.toBytes(message);
 		try {
-			DatagramPacket messageOut = new DatagramPacket(messageBytes, messageBytes.length, this.group, 6789);
+			DatagramPacket messageOut = new DatagramPacket(messageBytes, messageBytes.length, mcastaddr, 6789);
 			this.socket.send(messageOut);
 		} catch (Exception e) {
 			throw new Exception("Failed to send message");
 		}
 	}
 
-	private void receiveMessage() throws Exception {
+	private void receiveMessage(){
 		try {
 			byte[] buffer = new byte[1000];
 			Message message;
@@ -191,12 +197,12 @@ public class Process extends Thread {
 			message = Message.fromBytes(buffer);
 
 			System.out.println(message.toString());
-
+			
 			this.manageMessage(message);
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception("Failed to send message");
+			System.out.println("Failed to send message");
 		}
 	}
 
@@ -240,21 +246,23 @@ public class Process extends Thread {
 		System.out.println();
 	}
 
-	private void manageMessage(Message mensagem) throws Exception {
-		switch (mensagem.getMessageType()) {
+	private void manageMessage(Message message) throws Exception{
+		switch (message.getMessageType()) {
 			case ENTRY:
-				mensagem.setInit(true);
+				message.setInit(true);
 				Message entryResponse = new Message(MessageTypes.ENTRY_RESPONSE, true, this.id);
 				this.sendMessage(entryResponse);
+
 				break;
 			case ENTRY_RESPONSE:
 				// Atualiza o estado (inicializado ou não)
-				this.init = mensagem.getInit();
+				this.init = message.getInit();
 				break;
 			case REQUEST:
 				// Responde à requisição de recursos
 				Message requestsResponses = new Message(MessageTypes.REQUEST_RESPONSE, this.resourceState, this.id);
 				this.sendMessage(requestsResponses);
+
 				break;
 			case RELEASE:
 				// Atualiza a lista de espera do recurso, caso esteja interessado
@@ -262,7 +270,7 @@ public class Process extends Thread {
 
 				if (resourceReleasedState.equals(StateTypes.WANTED)) {
 					Set<String> resourceReleasedStateList = this.resourceWaitingList;
-					resourceReleasedStateList.remove(mensagem.getName());
+					resourceReleasedStateList.remove(message.getName());
 
 					if (resourceReleasedStateList.size() == 0) {
 						this.resourceState = StateTypes.HELD;

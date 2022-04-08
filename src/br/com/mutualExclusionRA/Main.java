@@ -8,25 +8,14 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 
-		// Process process_U = new Process("1", 0, 0, StateTypes.RELEASED);
-		// process_U.start();
-		// Process process_D = new Process("2", 0, 0, StateTypes.RELEASED);
-		// process_D.start();
-		// Process process_T = new Process("3", 0, 0, StateTypes.RELEASED);
-		// process_T.start();
-
 		System.out.println("Initializing process...");
 		Process process = null;
-		Process processo2 = null;
-		// Process processo3 = null;
+
 
 		try {
 			process = new Process("1", StateTypes.RELEASED);
 			process.start();
-			// processo2 = new Process("2", StateTypes.RELEASED);
-			// processo2.start();
-			// processo3 = new Process("3", StateTypes.RELEASED);
-			// processo3.start();
+
 		} catch (Exception e) {
 			System.out.println("Process Create Error");
 			e.printStackTrace();
@@ -37,7 +26,7 @@ public class Main {
 
 			int opt = scanner.nextInt();
 
-			if (process.getInit() || opt == 5 || opt == 6) {
+			if (process.getInit() || opt == 3 || opt == 4) {
 				switch (opt) {
 				case 1:
 					System.out.println();
@@ -47,26 +36,14 @@ public class Main {
 					break;
 				case 2:
 					System.out.println();
-					System.out.println("Requisitando recurso...");
-					System.out.println();
-					process.requestResource();
-					break;
-				case 3:
-					System.out.println();
 					System.out.println("Releasing resource 1...");
 					System.out.println();
 					process.releaseResource(Boolean.TRUE);
 					break;
-				case 4:
-					System.out.println();
-					System.out.println("Releasing resource 2...");
-					System.out.println();
-					process.releaseResource(Boolean.TRUE);
-					break;
-				case 5:
+				case 3:
 					process.printConnectedPeers();
 					break;
-				case 6:
+				case 4:
 					System.out.println();
 					System.out.println("Leaving program...");
 					System.out.println();
@@ -74,6 +51,9 @@ public class Main {
 					process.leaveMessage();
 					scanner.close();
 					System.exit(0);
+					break;
+				case 5:
+					System.out.println(process.getStateSC());
 					break;
 				default:
 					System.out.println("Invalid choice!");
